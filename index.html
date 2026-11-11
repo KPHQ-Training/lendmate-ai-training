@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LendMate AI Self-Learning Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBF8FF; --panel:#FFFFFF; --ink:#1F0B45; --ink2:#4A3A6B; --mute:#7A6C96;
+  --line:#E6DDF5; --purple:#5A2BA8; --pink:#FAC6FF; --soft:#F3ECFC; --lm:#A0337E;
+  --band:#1F0B45; --onband:#FFFFFF; --onband2:#EDE4FA; --bandacc:#FAC6FF; --bandline:#4A2F7A;
+  --red:#C0392B; --redbg:#FDF0EE; --amber:#B7791F; --green:#2E7D32; --greenbg:#EEF7EF;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#130827; --panel:#1C1036; --ink:#F2ECFC; --ink2:#CFC3E6; --mute:#9C8FB8;
+  --line:#33245A; --purple:#B79BF0; --pink:#FAC6FF; --soft:#251645; --lm:#F09AD4;
+  --band:#2A1652; --onband:#FFFFFF; --onband2:#EDE4FA; --bandacc:#FAC6FF; --bandline:#4A2F7A;
+  --red:#D9534A; --redbg:#2E1418; --amber:#C98A2B; --green:#3E9A45; --greenbg:#132A1A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#130827; --panel:#1C1036; --ink:#F2ECFC; --ink2:#CFC3E6; --mute:#9C8FB8;
+  --line:#33245A; --purple:#B79BF0; --pink:#FAC6FF; --soft:#251645; --lm:#F09AD4;
+  --band:#2A1652; --onband:#FFFFFF; --onband2:#EDE4FA; --bandacc:#FAC6FF; --bandline:#4A2F7A;
+  --red:#D9534A; --redbg:#2E1418; --amber:#C98A2B; --green:#3E9A45; --greenbg:#132A1A; color-scheme:dark}
+*{box-sizing:border-box}
+:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Montserrat',Arial,sans-serif;font-size:16px;line-height:1.6}
+a{color:var(--purple)}
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:48px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+
+/* sidebar */
+nav.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow:auto;padding:32px 0}
+.brand{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--purple);margin-bottom:20px}
+.prog{margin:0 0 20px}
+.prog .bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.prog .bar i{display:block;height:100%;width:0;background:var(--purple);transition:width .3s}
+.prog p{font-size:13px;color:var(--mute);margin:8px 0 0}
+nav.side ol{list-style:none;margin:0;padding:0}
+nav.side li a{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px;font-weight:500;line-height:1.35}
+nav.side li a:hover{background:var(--soft)}
+nav.side li a.on{background:var(--soft);color:var(--ink);font-weight:700}
+nav.side .n{flex:0 0 24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--mute)}
+nav.side a.done .n{background:var(--purple);border-color:var(--purple);color:var(--bg)}
+nav.side .tm{display:block;font-size:12px;font-weight:500;color:var(--mute)}
+
+main{padding:32px 0 96px;min-width:0}
+
+/* hero */
+.hero{background:radial-gradient(circle at 85% 15%,#5A2BA8 0%,#3D1878 45%,#1F0B45 100%);color:var(--onband);border-radius:16px;padding:48px 44px;margin-bottom:32px}
+.hero .eb{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin:0 0 12px}
+.hero h1{font-family:'Bebas Neue',Arial,sans-serif;font-weight:400;font-size:72px;line-height:.95;margin:0 0 16px;letter-spacing:.5px}
+.hero p{margin:0;font-size:17px;max-width:560px;color:var(--onband2)}
+.hero .meta{margin-top:24px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--pink)}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 20px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.step b{display:block;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+.step span{font-size:14px;color:var(--ink2);line-height:1.45;display:block}
+.note{background:var(--soft);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--ink2);margin-bottom:48px}
+.note b{color:var(--ink)}
+
+/* sections */
+section.sec{padding-top:24px;margin-bottom:64px}
+.sh{display:flex;align-items:baseline;gap:16px;border-top:2px solid var(--ink);padding-top:16px;margin-bottom:8px}
+.sh .num{font-family:'Bebas Neue',Arial,sans-serif;font-size:44px;line-height:1;color:var(--purple)}
+.sh h2{font-family:'Bebas Neue',Arial,sans-serif;font-weight:400;font-size:44px;line-height:1;margin:0;letter-spacing:.5px}
+.sh .rt{margin-left:auto;font-size:12px;color:var(--mute);white-space:nowrap}
+.tldr{font-size:19px;font-weight:600;line-height:1.45;margin:16px 0 28px;padding-left:16px;border-left:4px solid var(--pink)}
+h3{font-size:18px;font-weight:800;margin:32px 0 12px}
+h3 small{display:block;font-size:12px;font-weight:600;color:var(--mute);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+p{margin:0 0 12px}
+
+/* tags: plain labels, no pills */
+.tag{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.rows .r .tag{white-space:nowrap}
+@media (max-width:900px){.rows .r .tag{white-space:normal}}
+.tag.law{color:var(--purple)} .tag.lm{color:var(--lm)} .tag.tool{color:var(--mute)}
+
+.cards{display:grid;gap:12px}
+.c2{grid-template-columns:1fr 1fr} .c3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.card h4{margin:0 0 6px;font-size:15px;font-weight:800}
+.card p{font-size:14.5px;color:var(--ink2);margin:0 0 8px}
+.card ul{margin:0 0 8px;padding-left:18px;font-size:14.5px;color:var(--ink2)}
+.card li{margin-bottom:4px}
+
+.list{list-style:none;margin:0;padding:0;counter-reset:l}
+.list li{counter-increment:l;display:grid;grid-template-columns:36px 1fr;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+.list li:last-child{border-bottom:0}
+.list li::before{content:counter(l);font-family:'Bebas Neue',Arial,sans-serif;font-size:26px;color:var(--purple);line-height:1.1}
+.list li p{margin:0}
+
+.rows{border-top:1px solid var(--line)}
+.rows .r{display:grid;grid-template-columns:1fr auto;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.rows .r .tag{text-align:right;padding-top:3px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute);font-weight:700;background:var(--soft)}
+tr:last-child td{border-bottom:0}
+td.p{font-weight:700;white-space:nowrap}
+
+.callout{border-radius:12px;padding:16px 20px;margin:16px 0;font-size:15px}
+.callout.key{background:var(--band);color:var(--onband)}
+.callout.key b{color:var(--bandacc)}
+.callout.ex{background:var(--soft);color:var(--ink)}
+
+/* traffic light */
+.light{display:grid;gap:10px}
+.lt{display:grid;grid-template-columns:120px 1fr;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--panel)}
+.lt .k{padding:18px;color:var(--onband);font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;display:flex;flex-direction:column;gap:2px}
+.lt .k span{font-family:'Bebas Neue',Arial,sans-serif;font-size:30px;letter-spacing:.5px;font-weight:400;text-transform:none;line-height:1}
+.lt .v{padding:16px 20px;font-size:14.5px}
+.lt .v p{margin:0 0 4px}
+.lt.red .k{background:var(--red)} .lt.yel .k{background:var(--amber)} .lt.grn .k{background:var(--green)}
+
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dd{border-radius:12px;padding:18px 20px}
+.dd.do{background:var(--greenbg)} .dd.dont{background:var(--redbg)}
+.dd h4{margin:0 0 8px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
+.dd.do h4{color:var(--green)} .dd.dont h4{color:var(--red)}
+.dd ul{margin:0;padding-left:18px;font-size:14.5px}
+
+.prov-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+.prov-nav button{font:inherit;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--panel);color:var(--ink2);border-radius:8px;padding:6px 12px;cursor:pointer}
+.prov-nav button.on{background:var(--band);border-color:var(--band);color:var(--onband)}
+.prov{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.pc h4{margin:0 0 2px;font-size:17px;font-weight:800}
+.pc .law{font-size:13px;color:var(--mute);margin:0 0 12px}
+.pc dl{margin:0;display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:14px}
+.pc dt{font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:700;color:var(--mute);padding-top:2px}
+.pc dd{margin:0;color:var(--ink2)}
+.pc.hide{display:none}
+
+.script{background:var(--panel);border:2px solid var(--purple);border-radius:12px;padding:20px 24px;font-size:18px;font-weight:600;line-height:1.5;margin:12px 0 16px}
+.script small{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:8px;font-weight:700}
+
+.sss{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.sss div{background:var(--band);color:var(--onband);border-radius:12px;padding:24px 20px}
+.sss b{display:block;font-family:'Bebas Neue',Arial,sans-serif;font-size:40px;font-weight:400;line-height:1;color:var(--pink);margin-bottom:8px}
+.sss span{font-size:14.5px;color:var(--onband2)}
+
+details.why{margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+details.why summary{cursor:pointer;padding:14px 20px;font-size:14px;font-weight:700;color:var(--purple);list-style:none;display:flex;justify-content:space-between}
+details.why summary::-webkit-details-marker{display:none}
+details.why summary::after{content:"+";font-size:18px;line-height:1}
+details.why[open] summary::after{content:"−"}
+details.why .in{padding:0 20px 16px;font-size:14px;color:var(--ink2)}
+details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--ink)}
+
+.read{display:flex;justify-content:flex-end;margin-top:20px}
+.read button{font:inherit;font-size:14px;font-weight:700;border:1.5px solid var(--purple);background:transparent;color:var(--purple);border-radius:10px;padding:10px 18px;cursor:pointer}
+.read button.done{background:var(--purple);color:var(--bg)}
+
+.end{background:var(--band);color:var(--onband);border-radius:16px;padding:36px 40px}
+.end h2{font-family:'Bebas Neue',Arial,sans-serif;font-weight:400;font-size:44px;margin:0 0 8px}
+.end p{color:var(--onband2)}
+.end .small{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--bandacc);margin-top:20px}
+
+/* mobile */
+.mtop{display:none}
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  nav.side{display:none}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+  .mtop{display:block;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line)}
+  .mtop select{width:100%;font:inherit;font-size:14px;font-weight:600;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+  .mtop .bar{height:4px;background:var(--line);border-radius:2px;margin-top:8px;overflow:hidden}
+  .mtop .bar i{display:block;height:100%;width:0;background:var(--purple)}
+  html{scroll-padding-top:80px}
+  .hero{padding:32px 24px}
+  .hero h1{font-size:52px}
+  .steps,.c2,.c3,.dodont,.prov,.sss{grid-template-columns:1fr}
+  .sh h2,.sh .num{font-size:34px}
+  .sh .rt{display:none}
+  .lt{grid-template-columns:1fr}
+  .rows .r{grid-template-columns:1fr}
+  .rows .r .tag{text-align:left;padding-top:0}
+  .pc dl{grid-template-columns:1fr}
+}
+
+/* v3: plain-words label, quick rules, can-I answers, glossary */
+.tldr::before{content:"In plain words";display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.quick{background:var(--band);color:var(--onband);border-radius:16px;padding:28px 32px;margin-bottom:20px}
+.quick h2{font-family:'Bebas Neue',Arial,sans-serif;font-weight:400;font-size:36px;line-height:1;margin:0 0 4px;letter-spacing:.5px}
+.quick > p{color:var(--onband2);font-size:14px;margin:0 0 16px}
+.quick ol{list-style:none;margin:0;padding:0;counter-reset:q;display:grid;gap:2px}
+.quick li{counter-increment:q;display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;padding:10px 0;border-top:1px solid var(--bandline);font-size:16px;line-height:1.45}
+.quick li::before{content:counter(q);font-family:'Bebas Neue',Arial,sans-serif;font-size:30px;line-height:1;color:var(--bandacc)}
+.quick li span{color:var(--onband2);font-size:14px;display:block}
+.qa{display:grid;gap:8px;margin:8px 0}
+.q{display:grid;grid-template-columns:84px minmax(0,1fr);gap:16px;align-items:start;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.ans{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:6px 0;text-align:center;border-radius:8px;color:var(--onband)}
+.ans.no{background:var(--red)} .ans.yes{background:var(--green)} .ans.if{background:var(--amber)}
+.q b{display:block;font-size:15px;line-height:1.4;margin-bottom:2px}
+.q span{display:block;font-size:14px;color:var(--ink2);line-height:1.5}
+.gl{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;margin:0}
+.gl div{padding:12px 0;border-bottom:1px solid var(--line)}
+.gl dt{font-weight:800;font-size:15px}
+.gl dd{margin:2px 0 0;font-size:14px;color:var(--ink2)}
+@media (max-width:900px){.quick{padding:24px 20px}.q{grid-template-columns:1fr;gap:8px}.ans{justify-self:start;padding:4px 10px}.gl{grid-template-columns:1fr}}
+@media print{nav.side,.mtop,.read,.prov-nav{display:none}.wrap{display:block}details.why .in{display:block}}
+</style>
+<div class="wrap">
+
+<nav class="side" aria-label="Sections">
+  <div class="brand">LendMate · Self-learning</div>
+  <div class="prog"><div class="bar"><i id="pbar"></i></div><p id="ptext">0 of 8 sections read</p></div>
+  <ol id="toc"></ol>
+</nav>
+
+<main>
+<div class="mtop"><select id="msel" aria-label="Jump to section"></select><div class="bar"><i id="mbar"></i></div></div>
+
+<header class="hero">
+  <p class="eb">LendMate VA training · Self-learning guide</p>
+  <h1>AI on Canadian<br>mortgage files.</h1>
+  <p>What you may and may not do with AI on files for Canadian mortgage broker clients. All provinces except Quebec, plus Yukon, Northwest Territories and Nunavut.</p>
+  <p class="meta">Rules checked 28 October 2026 · Not legal advice</p>
+</header>
+
+<div class="steps">
+  <div class="step"><b>1 · Read</b><span>Work through the 8 sections below. Mark each one read as you go.</span></div>
+  <div class="step"><b>2 · Quiz</b><span>Take the gate quiz (15 questions). Link: <a href="https://lendmate-quiz-app.vercel.app">lendmate-quiz-app.vercel.app</a>. Pass mark: 70% (11 of 15). Unlimited tries.</span></div>
+  <div class="step"><b>3 · Live</b><span>Pass, and you can join a live session. If not, read again and retake.</span></div>
+  <div class="step"><b>4 · Check</b><span>The live session shows you how to do the work with AI, then ends with a short check (8 questions).</span></div>
+</div>
+
+<div class="quick">
+  <h2>The 30-second version</h2>
+  <p>If you remember nothing else, remember these five. The sections below explain each one.</p>
+  <ol>
+    <li><div>No private client info goes into any AI chat app.<span>Names, contact details, SIN, IDs, income documents, credit reports, deal details. Your broker’s business data counts too.</span></div></li>
+    <li><div>You are not mortgage licensed, so AI can’t do licensed work for you.<span>No advice on which mortgage suits someone, no assessing borrowers, nothing sent to a lender. That is your broker’s job.</span></div></li>
+    <li><div>AI notetakers and CRM AI need your broker’s OK.<span>Only in your broker’s own account, once they confirm that client consent covers it. Otherwise off.</span></div></li>
+    <li><div>Check every fact AI writes. Your broker approves anything public.<span>AI can make mistakes. It drafts, you check, your broker decides.</span></div></li>
+    <li><div>When in doubt: Stop. Strip it. Ask your broker.<span>Your broker is accountable, so their answer wins.</span></div></li>
+  </ol>
+</div>
+
+<div class="note">
+  <b>Read these first.</b> This is not legal advice. It was built from public sources and reviewed by the LendMate team, not a lawyer. No private info goes into any chat app: a LendMate rule, stricter than the law. When in doubt: <b>Stop. Strip it. Ask your broker.</b> Live sessions: two sessions of 30 minutes, Day 1 and Day 2, at 8:30 to 9:00 am EST (9:30 to 10:00 pm Philippine time). Your TL shares the dates.
+</div>
+
+<!-- 1 -->
+<section class="sec" id="s1" data-title="Why the rules matter" data-min="4">
+  <div class="sh"><span class="num">01</span><h2>Why the rules matter</h2><span class="rt">~4 min</span></div>
+  <p class="tldr">Your broker is accountable for everything you do with AI. There is no AI law for this work yet, so the rules come from privacy law and mortgage licensing law.</p>
+
+  <h3><small>Quick answers</small>Can I...?</h3>
+  <div class="qa">
+  <div class="q"><span class="ans no">No</span><div><b>Paste a client’s pay stub into ChatGPT to summarize it?</b><span>Income records are “almost always considered to be sensitive”, and no private info goes into any chat app.</span></div></div>
+  <div class="q"><span class="ans no">No</span><div><b>Paste your broker’s client list into an AI tool to tidy it up?</b><span>Your broker’s business data is treated like their clients’ data: private, and it stays in their own systems.</span></div></div>
+  <div class="q"><span class="ans no">No</span><div><b>Pasted something private by mistake? Keep quiet and delete it?</b><span>Tell your broker straight away. They decide what has to be reported and to whom.</span></div></div>
+  </div>
+
+  <h3><small>Before we start</small>Every rule has one of three labels</h3>
+  <div class="cards c3">
+    <div class="card"><p class="tag law">LAW</p><p>Written in a statute, a regulation or a regulator’s guidance. Each has a source ID.</p></div>
+    <div class="card"><p class="tag lm">LENDMATE RULE</p><p>Our own house policy, set by the LendMate team. Where it is stricter than the law, it says so.</p></div>
+    <div class="card"><p class="tag tool">TOOL POLICY</p><p>What an AI vendor says on its own website. These change often, so check them on the day.</p></div>
+  </div>
+  <p style="margin-top:12px;font-size:14px;color:var(--ink2)">Laws change. These rules were checked on 28 October 2026. If anything here conflicts with what a broker client tells you, follow the broker and flag it to the LendMate team.</p>
+
+  <h3><small>Why this matters</small>Your broker carries the risk</h3>
+  <div class="rows">
+    <div class="r"><div><b>The broker stays accountable.</b> Under PIPEDA, an organization is accountable for personal information it sends to a third party for processing. When you process a client’s files, that third party is you.</div><span class="tag law">LAW · F6</span></div>
+    <div class="r"><div><b>The data leaves Canada.</b> You work from the Philippines. PIPEDA allows that, but clients must be told their information may be processed in another country.</div><span class="tag law">LAW · F10</span></div>
+    <div class="r"><div><b>The AI is never accountable.</b> “Accountability for decisions rests with the organization, and not with any kind of automated system.”</div><span class="tag law">LAW · F5</span></div>
+  </div>
+
+  <h3><small>Whose data is it?</small>Two kinds of client data</h3>
+  <div class="cards c2">
+    <div class="card">
+      <h4>Your broker’s clients (B2C)</h4>
+      <p>Borrowers and buyers: names, contact details, SIN, IDs, income documents, credit reports, deal details.</p>
+      <ul><li>The broker is accountable. You are their processor.</li><li>Used only for the purpose it was collected for.</li><li>Kept confidential, in the places the law says.</li></ul>
+      <p class="tag law">LAW · F6 · C-ON5 · C-BC7 · C-AB3</p>
+    </div>
+    <div class="card">
+      <h4>Your broker’s business (B2B)</h4>
+      <p>Our client, the broker: their logins, systems, client lists, pipeline, lender details and internal documents.</p>
+      <ul><li>Treated like their clients’ data: private.</li><li>Stays in the broker’s own accounts and systems.</li><li>Their policy comes first. It can be stricter than ours.</li></ul>
+      <p class="tag lm">LENDMATE RULE</p>
+    </div>
+  </div>
+  <div class="callout key"><b>For both:</b> no private info in any chat app. If something is pasted, sent or shared by mistake, tell your broker straight away.</div>
+
+  <h3><small>The legal picture</small>No AI law covers this work. Yet.</h3>
+  <div class="tbl"><table>
+    <tr><th>Date</th><th>What happened</th></tr>
+    <tr><td class="p">7 Dec 2023</td><td>Canada’s privacy regulators publish principles for generative AI. Guidance, not law.</td></tr>
+    <tr><td class="p">6 Jan 2025</td><td>Bill C-27 dies without Royal Assent. It held AIDA, the proposed AI law.</td></tr>
+    <tr><td class="p">15 Jun 2026</td><td>Bill C-36, a new federal privacy law, is introduced. Now at second reading. Not law.</td></tr>
+    <tr><td class="p">1 May 2027</td><td>OSFI Guideline E-23 starts. It covers AI models at federally regulated lenders, not brokers.</td></tr>
+  </table></div>
+  <p style="margin-top:12px">So the rules you follow come from privacy law and mortgage licensing law.</p>
+
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <h5>Not legal advice</h5>
+    <p>This guide was built from public sources and reviewed by the LendMate team, not by a lawyer. It explains what the rules say; it does not replace the broker’s own compliance advice. LAW means a statute, regulation or regulator guidance, with a source ID that matches research/sources.md. LENDMATE RULE is our house policy. TOOL POLICY is what a vendor publishes about its own product, and it can change at any time.</p>
+    <h5>Your broker carries the risk</h5>
+    <p>One: PIPEDA Schedule 1, clause 4.1.3. An organization is responsible for personal information it transfers to a third party for processing, and must use contracts or other means to keep a comparable level of protection (F6). Two: the OPC’s 2009 guidelines on processing across borders. PIPEDA does not prohibit sending data outside Canada, but the sending organization stays accountable and must make it plain that information may be processed in a foreign country and may be accessible to that country’s authorities (F10). Three: the joint federal, provincial and territorial principles on generative AI, Principle 5 on accountability (F5). Takeaway: anything you do with an AI tool is legally the broker’s responsibility, which is why the broker’s rules always win.</p>
+    <h5>Two kinds of client data</h5>
+    <p>LendMate works for two layers of clients. Our client is the mortgage broker (B2B). The broker’s clients are borrowers and buyers (B2C). Both layers of data are private, and the VA is the third party handling it. B2C, all LAW: PIPEDA says the organization stays accountable for personal information it sends to a third party for processing (F6), and the regulators say the organization, not the tool, is accountable (F5). Ontario brokerages may not use client information for any other purpose without written consent (C-ON5, O. Reg. 188/08 s.57). BC and Alberta require client confidentiality (C-BC7, C-AB3). BC records stay in BC and under the brokerage’s direct control, Ontario records stay at the brokerage’s premises, Alberta records at its Alberta office. B2B is a LendMate rule, not law: no statute we researched covers a broker’s own business information. The LendMate team confirmed on 2 November 2026 that it is handled exactly like the borrowers’ data. The mistake rule is also a confirmed LendMate rule. The broker, not the VA, decides what has to be reported and to whom; PIPEDA and the BC and Alberta rules have breach and loss reporting duties that sit with the organization or brokerage (F9, C-BC5, P3).</p>
+    <h5>No AI law yet</h5>
+    <p>F1, OPC principles for generative AI, issued 7 December 2023, guidance only. F24, LEGISinfo for Bill C-27 (44th Parliament, 1st session): final status “At consideration in committee in the House of Commons”, no Royal Assent, session ended 6 January 2025. AIDA was part of that bill. F22, LEGISinfo for Bill C-36 (45-1): introduced 15 June 2026, status “At second reading in the House of Commons”. It may have moved since 28 October 2026. F20, OSFI Guideline E-23 (2027): effective 1 May 2027, applies to federally regulated financial institutions, and its definition of a model includes AI/ML methods. It does not apply to brokers directly; we found no source on whether lenders pass its requirements down to brokers (F21, not found).</p>
+  </div></details>
+  <div class="read"><button data-sec="s1">Mark as read</button></div>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="s2" data-title="The rule stack" data-min="3">
+  <div class="sh"><span class="num">02</span><h2>The rule stack</h2><span class="rt">~3 min</span></div>
+  <p class="tldr">Five layers of rules apply to your work. When two layers disagree, follow the stricter one.</p>
+
+  <h3><small>Quick answers</small>Can I...?</h3>
+  <div class="qa">
+  <div class="q"><span class="ans yes">Yes</span><div><b>Follow your broker’s policy when it is stricter than LendMate’s?</b><span>When two layers disagree, follow the stricter one. Your broker’s policy can be stricter than everything else.</span></div></div>
+  <div class="q"><span class="ans if">Only if</span><div><b>Put personal information into a prompt?</b><span>The regulators say only where authorised. For you, that means your broker approved it. In chat apps, LendMate says never.</span></div></div>
+  </div>
+
+  <h3><small>Five layers. The strictest wins.</small>The rule stack</h3>
+  <ol class="list">
+    <li><p><b>Federal law.</b> PIPEDA for privacy, FINTRAC for anti-money laundering, CASL for commercial emails and texts.</p></li>
+    <li><p><b>Provincial privacy law.</b> Alberta PIPA and BC PIPA apply inside those provinces.</p></li>
+    <li><p><b>The mortgage regulator.</b> Who needs a licence, how records are kept, what ads must say.</p></li>
+    <li><p><b>Tool settings.</b> Whose account is it, and is it training on your data?</p></li>
+    <li><p><b>Your broker’s own policy.</b> It can be stricter than everything above.</p></li>
+  </ol>
+  <div class="callout key"><b>When two layers disagree, follow the stricter one.</b> <span class="tag" style="color:var(--bandacc)">LENDMATE RULE</span></div>
+
+  <h3><small>It depends where the client is</small>Which privacy law applies</h3>
+  <div class="tbl"><table>
+    <tr><th>Where</th><th>Privacy law</th><th>Watch for</th></tr>
+    <tr><td class="p">Alberta</td><td>Alberta PIPA</td><td>Notice to clients when a service provider outside Canada handles their data</td></tr>
+    <tr><td class="p">British Columbia</td><td>BC PIPA</td><td>Under the mortgage rules, lost records must be reported to the superintendent</td></tr>
+    <tr><td class="p">ON, SK, MB, NB, NS, PE, NL</td><td>PIPEDA</td><td>No provincial law deemed substantially similar to PIPEDA</td></tr>
+    <tr><td class="p">Yukon, NWT, Nunavut</td><td>PIPEDA</td><td>Organizations there are “considered federally regulated”</td></tr>
+    <tr><td class="p">Data crossing any border</td><td>PIPEDA</td><td>Applies everywhere, including Alberta and BC</td></tr>
+  </table></div>
+  <p class="tag law" style="margin-top:8px">LAW · F11 · F12 · P2 · C-BC5</p>
+
+  <h3><small>What privacy regulators expect from AI users</small>Five principles to work by</h3>
+  <ol class="list">
+    <li><p>Only put personal information into a prompt where authorised. <span style="color:var(--mute)">For you, “authorised” means your broker has approved it.</span></p></li>
+    <li><p>Use anonymized or de-identified information where possible.</p></li>
+    <li><p>What the AI infers about a person is personal information too.</p></li>
+    <li><p>Check AI output is accurate, especially when it feeds a decision about a person.</p></li>
+    <li><p>The organization is accountable, never the tool.</p></li>
+  </ol>
+  <p class="tag law">LAW (regulator guidance) · F2 to F5</p>
+
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <h5>The five layers</h5>
+    <p>Layer 1: PIPEDA applies to private-sector organizations across Canada in commercial activity (F11). FINTRAC obligations apply to mortgage brokers, administrators and lenders from 11 October 2024 (F13). CASL sets the rules for commercial electronic messages (F18). Layer 2: Alberta and BC have their own private-sector privacy laws, deemed substantially similar to PIPEDA (F12). Inside those provinces they generally replace PIPEDA; information that crosses provincial or national borders stays under PIPEDA (F11). Layer 3: each province’s mortgage law, covered in section 5. Layer 4: vendor settings. Layer 5: the broker client’s own rules. “Follow the stricter one” is a LendMate house rule, not a legal requirement.</p>
+    <h5>Which privacy law</h5>
+    <p>F12: the OPC lists only Alberta, BC and Quebec as having general private-sector privacy laws deemed substantially similar to PIPEDA. Ontario, New Brunswick, Newfoundland and Labrador and Nova Scotia have substantially similar laws for health information custodians only, which is not our work. F11: the OPC says organizations in the Northwest Territories, Yukon and Nunavut are considered federally regulated, so PIPEDA covers them, and that businesses handling personal information that crosses provincial or national borders are subject to PIPEDA. Every LendMate file crosses a national border, because the VA is in the Philippines. P2: Alberta PIPA section 13.1 requires the organization to notify the individual, before or at the time of transfer, of how to get its policies on service providers outside Canada and who can answer questions. That is the broker’s notice to give, not the VA’s. C-BC5: BC Mortgage Services Rules s.109(2), immediate written notice to the superintendent if records are lost or improperly accessed. BC PIPA itself has no mandatory breach notification (P1).</p>
+    <h5>The five principles</h5>
+    <p>These come from the joint principles for generative AI issued 7 December 2023 by the OPC with the provincial and territorial privacy regulators. The document is guidance on how existing privacy law applies; it is not a statute (F1). 1 (F2, Principle 7): “Where personal information (and, in particular, sensitive or confidential information) must be entered into a prompt, only do so where authorised.” 2 (F2): “Where possible and reasonable, use anonymized or de-identified information within prompts.” 3 (F3): “Treat any inferences generated about an identifiable individual as personal information.” 4 (F4, Principle 8): take reasonable steps to ensure outputs are accurate as necessary for the purpose, especially if used to make or assist in decisions about individuals. 5 (F5, Principle 5): “Accountability for decisions rests with the organization, and not with any kind of automated system.”</p>
+  </div></details>
+  <div class="read"><button data-sec="s2">Mark as read</button></div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="s3" data-title="The licensed line" data-min="3">
+  <div class="sh"><span class="num">03</span><h2>The licensed line</h2><span class="rt">~3 min</span></div>
+  <p class="tldr">LendMate VAs are not mortgage licensed and only do unlicensed tasks. If a task needs a licence, it goes to your broker. Using AI doesn’t change that.</p>
+
+  <div class="callout ex">This is the most important idea in this training, and it is not really about AI. In several provinces, tasks that sound like admin are defined in the law as mortgage brokering. AI tools will happily draft advice, qualification wording or lender submissions when asked, which makes it easy to cross the line without noticing.</div>
+
+  <h3><small>Quick answers</small>Can I...?</h3>
+  <div class="qa">
+  <div class="q"><span class="ans yes">Yes</span><div><b>Ask AI to write a blank follow-up template?</b><span>Use placeholders and no private info. Your broker reviews it.</span></div></div>
+  <div class="q"><span class="ans no">No</span><div><b>Tell a borrower which mortgage suits them?</b><span>That is advice, a licensed activity in BC, SK and NL. It goes to your broker.</span></div></div>
+  <div class="q"><span class="ans no">No</span><div><b>Send a borrower a message AI wrote saying they look approved?</b><span>Nobody sends it until the broker reviews it, and the broker sends it.</span></div></div>
+  <div class="q"><span class="ans no">No</span><div><b>Send a borrower’s details to a lender?</b><span>Sending borrower info to a lender is licensed work in ON, BC and MB. Never send anything to a lender yourself.</span></div></div>
+  </div>
+
+  <h3><small>The line</small>What only a licensed person does</h3>
+  <div class="tbl"><table>
+    <tr><th>Task</th><th>Licensed activity in</th></tr>
+    <tr><td>Advise on whether a particular mortgage suits someone</td><td class="p">BC, SK, NL</td></tr>
+    <tr><td>Assess a borrower on behalf of a lender</td><td class="p">ON, BC, MB</td></tr>
+    <tr><td>Send information about a borrower to a lender</td><td class="p">ON, BC, MB</td></tr>
+    <tr><td>Negotiate or arrange a mortgage</td><td class="p">ON, BC, SK, MB, NL, AB</td></tr>
+    <tr><td>Solicit people to borrow on a mortgage</td><td class="p">ON, BC, SK, MB, NL, AB</td></tr>
+    <tr><td>Take mortgage application information or pre-screen</td><td class="p">NB</td></tr>
+  </table></div>
+  <div class="callout key"><b>The task decides, not your job title.</b> Only Manitoba’s Act exempts clerical staff. Ontario and Saskatchewan say “as an employee or otherwise”. A blank in this table is not permission.</div>
+
+  <h3><small>The line, with AI</small>AI drafts. Your broker decides.</h3>
+  <div class="dodont">
+    <div class="dd do"><h4>AI may draft, for your broker to review</h4><ul><li>Blank deal summary templates</li><li>Blank follow-up templates</li><li>Blank document checklists</li></ul><p style="font-size:13px;margin:8px 0 0">No private info goes in. See the traffic light.</p></div>
+    <div class="dd dont"><h4>Never send it yourself</h4><ul><li>Anything that recommends a mortgage or product</li><li>Anything that says a borrower qualifies</li><li>Anything that goes to a lender</li><li>Anything that negotiates rates or terms</li></ul></div>
+  </div>
+  <div class="callout ex"><b>Example.</b> An AI tool drafts a message to a borrower saying they look approved. Nobody sends it until the broker reviews it, and the broker sends it.</div>
+  <p class="tag lm">LENDMATE RULE · Built on the licensing laws above</p>
+
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <h5>The LendMate position</h5>
+    <p>Confirmed by the LendMate team on 28 October 2026: LendMate VAs are not mortgage licensed, only do unlicensed activities, and no current VA task sits on the licensed side. Anything on the licensed side is for the licensed broker. Only a licensed person acting for a brokerage may do these tasks for pay.</p>
+    <h5>Licensed tasks, by province</h5>
+    <p>Every cell is from the statute or regulator text. Ontario MBLAA s.2(1): soliciting, providing information about a prospective borrower to a prospective lender, assessing a borrower on behalf of a lender, negotiating or arranging (C-ON1); s.2(3): no individual may deal in mortgages for remuneration, “as an employee or otherwise”, without a licence (C-ON2). BC Mortgage Services Act s.1 adds providing advice about entering into a particular mortgage contract (C-BC2); s.4 has no exemption for brokerage staff (C-BC3). Saskatchewan s.2(4): soliciting on behalf of another, negotiating or arranging, advice on the appropriateness of a particular mortgage loan; s.5(3) “as an employee or otherwise” (C-SK1). Manitoba s.1: soliciting, providing information about a prospective borrower to a lender, assessing a borrower for a lender, arranging or placing mortgages (C-MB1); s.2(2) exempts office staff in clerical, accounting or caretaking duties not otherwise in mortgage business (C-MB2). Newfoundland and Labrador s.2(2): soliciting, negotiating or arranging, advice on the appropriateness of a particular mortgage (C-NL1). Alberta Real Estate Act s.1(1)(r): solicits, negotiates, collects payments or administers (C-AB1). New Brunswick: FCNB guidelines say taking mortgage applications or pre-screening referrals requires a licence (C-NB1). Gaps: the Nova Scotia Act definition could not be read (C-NS3). No licensing statute was found for PEI or the territories.</p>
+    <h5>AI drafts, your broker decides</h5>
+    <p>This is a LendMate house rule. It applies the licensing definitions to AI output. Recommending a product is advice (BC, SK, NL), saying a borrower qualifies is assessing (ON, BC, MB), sending to a lender is providing borrower information to a lender (ON, BC, MB), negotiating terms is negotiating or arranging (most provinces). The “may draft” column is drafting that a licensed broker reviews and sends. No private information goes into the tool, so these are templates the broker or VA fills in outside AI.</p>
+  </div></details>
+  <div class="read"><button data-sec="s3">Mark as read</button></div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="s4" data-title="The data traffic light" data-min="5">
+  <div class="sh"><span class="num">04</span><h2>The data traffic light</h2><span class="rt">~5 min</span></div>
+  <p class="tldr">Check the data before the tool. Red stops. Yellow needs your broker’s written OK. Green goes, with a fact check.</p>
+
+  <h3><small>Quick answers</small>Can I...?</h3>
+  <div class="qa">
+  <div class="q"><span class="ans no">No</span><div><b>Use an AI tool to pull or read a credit report?</b><span>Credit bureau and lender portals need a human to click. AI never pulls, reads or uploads a credit report.</span></div></div>
+  <div class="q"><span class="ans if">Only if</span><div><b>Run an AI notetaker on a client call?</b><span>Only in your broker’s own account, once your broker confirms that client consent covers it.</span></div></div>
+  <div class="q"><span class="ans if">Only if</span><div><b>Post an AI-drafted social media caption?</b><span>Only after you check every fact and your broker approves it. In Ontario it must show the agent’s name plus the brokerage’s name and licence number.</span></div></div>
+  <div class="q"><span class="ans no">No</span><div><b>Tell a client that the law bans AI?</b><span>No law we found bans all personal information from AI tools. The ban is a LendMate rule.</span></div></div>
+  </div>
+
+  <h3><small>Red, yellow, green</small>The traffic light</h3>
+  <div class="light">
+    <div class="lt red"><div class="k">Red<span>Stop</span></div><div class="v"><p><b>Any private info:</b> names, contact details, SIN, IDs, credit reports, income documents, deal details.</p><p>Never into a chat app. No exceptions.</p></div></div>
+    <div class="lt yel"><div class="k">Yellow<span>Confirm</span></div><div class="v"><p><b>AI notetakers and CRM AI</b>, such as GHL and My Broker Pro.</p><p>Only in your broker’s own account, once your broker confirms that client consent covers it. Otherwise off.</p></div></div>
+    <div class="lt grn"><div class="k">Green<span>Go</span></div><div class="v"><p><b>No private info:</b> templates, checklists, ad drafts, SOPs, general education.</p><p>Any tool. Check every fact before it is used.</p></div></div>
+  </div>
+  <p class="tag lm" style="margin-top:8px">LENDMATE RULE · Stricter than the law</p>
+  <div class="callout ex">No law sorts data into these colours, and no law we found bans all personal information from AI tools. LendMate goes further on purpose. <b>Never tell a client that the law bans it.</b></div>
+
+  <h3><small>Red · Stop</small>Why red data stays out</h3>
+  <div class="rows">
+    <div class="r"><div>Regulators: only put personal information into a prompt where authorised. LendMate goes further: none in chat apps.</div><span class="tag law">LAW · OPC + LENDMATE RULE</span></div>
+    <div class="r"><div>Income records are “almost always considered to be sensitive”.</div><span class="tag law">LAW · PIPEDA 4.3.4</span></div>
+    <div class="r"><div>Ontario brokerages can’t use client information for any other purpose without the client’s written consent.</div><span class="tag law">LAW · O. Reg. 188/08 s.57</span></div>
+    <div class="r"><div>BC and Alberta mortgage rules require client confidentiality.</div><span class="tag law">LAW · MSA Rules 38(e) · RECA Rule 44</span></div>
+    <div class="r"><div>ID checks follow FINTRAC’s methods. Under the photo ID method, a scan alone doesn’t count.</div><span class="tag law">LAW · FINTRAC</span></div>
+    <div class="r"><div><b>Credit bureau and lender portals need a human to click.</b> AI never pulls, reads or uploads a credit report.</div><span class="tag lm">LENDMATE RULE</span></div>
+  </div>
+
+  <h3><small>Yellow · Confirm</small>Yellow means your broker confirmed</h3>
+  <ol class="list">
+    <li><p><b>Their account.</b> Your broker’s own account. Never a personal or LendMate account. <span class="tag lm">LENDMATE RULE</span></p></li>
+    <li><p><b>Confirmed.</b> Your broker confirms that client consent covers the tool. Never assume it. <span class="tag lm">LENDMATE RULE</span></p></li>
+    <li><p><b>Notices.</b> Recorded calls still need the notice and a choice. In Alberta, the broker gives the offshore notice. <span class="tag law">LAW · F17 · P2</span></p></li>
+  </ol>
+
+  <h3><small>Green · Go</small>Green still needs a fact check</h3>
+  <div class="rows">
+    <div class="r"><div>Check every fact AI writes before anyone sees it.</div><span class="tag law">LAW · OPC AI principles</span></div>
+    <div class="r"><div>No false or misleading claims to the public.</div><span class="tag law">LAW · Competition Act 74.01</span></div>
+    <div class="r"><div>Ontario: public materials show the agent’s name plus the brokerage’s name and licence number.</div><span class="tag law">LAW · O. Reg. 187/08 s.8</span></div>
+    <div class="r"><div>Alberta: the brokerage name must be clearly shown.</div><span class="tag law">LAW · RECA Rule 65(b)</span></div>
+    <div class="r"><div>Commercial emails and texts need consent, sender details and an unsubscribe.</div><span class="tag law">LAW · CASL s.6</span></div>
+    <div class="r"><div><b>Your broker approves anything before it is posted.</b></div><span class="tag lm">LENDMATE RULE</span></div>
+  </div>
+
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <h5>The traffic light</h5>
+    <p>A LendMate house rule, set by the LendMate team on 30 October 2026. The regulators’ principles say to enter personal information into a prompt only where authorised, and to use de-identified information where possible (F2). LendMate goes further on purpose: no private information in chat apps at all. Yellow is the one narrow exception, for tools that handle private information by design. It needs the broker’s own account and the broker’s confirmation that client consent covers it. Consent is never assumed. Green is anything with no private information in it; facts and ad rules still apply.</p>
+    <h5>Red data</h5>
+    <p>Row 1, F2 plus LendMate rule: the law says “only where authorised”; the full ban on private information in chat apps is LendMate’s own stricter rule, not law. Row 2, F7: PIPEDA Schedule 1 clause 4.3.4 says some information, for example medical records and income records, is almost always considered to be sensitive. T4s, NOAs, pay stubs and bank statements are income records. Row 3, C-ON5: Ontario O. Reg. 188/08 s.57, a brokerage shall not use information obtained in the course of business for any other purpose without the written consent of the person it is about. Row 4, C-BC7 and C-AB3: BC Mortgage Services Rules s.38(e) and 39(4)(b), maintain client confidentiality and do not disclose confidential client information unless the client authorizes it or the law requires it; RECA Rule 44(1) and 44(2)(a), no disclosure of client information without authorization, and mortgage brokerages must have policies to protect personal and confidential information. Row 5, F15: FINTRAC’s guidance on methods to verify identity. Government photo ID must be authentic, valid and current; a fax, photocopy, scan or electronic image counts only as one source under the dual-process method. An agent may verify identity only under a written agreement with the brokerage, which stays responsible. Row 6, LendMate rule set by the LendMate team on 29 October 2026: any action in a credit bureau or lender portal is done by a human, never by an AI tool. The bureau and portal contract terms are private and were not researched (E1).</p>
+    <h5>Yellow</h5>
+    <p>Yellow covers tools that handle private information by design: AI notetakers on client calls and AI features inside GHL or My Broker Pro. Steps 1 and 2 are LendMate house rules. The broker collects client consent, so LendMate cannot confirm it from our side, and consent to a mortgage application may not cover AI. Until a broker confirms, these tools stay off for that broker’s clients. Step 3 is law. OPC guidance on recording calls requires notice and a choice (F17). Alberta PIPA s.13.1 requires notice when a service provider outside Canada handles personal information (P2); that notice is the broker’s to give. Ontario O. Reg. 188/08 s.57 requires written consent to use client information for any other purpose (C-ON5). My Broker Pro’s published terms don’t cover AI, and its pages conflict on where data is hosted (D9).</p>
+    <h5>Green</h5>
+    <p>Green means no personal information, not no rules. Row 1, F4: the OPC principles ask organizations to take reasonable steps to make sure AI outputs are accurate enough for their purpose. Row 2, F19: Competition Act s.74.01(1)(a), a representation to the public that is false or misleading in a material respect is reviewable conduct; 74.01(1)(b) covers performance claims not based on an adequate and proper test. Row 3, C-ON6: Ontario O. Reg. 187/08 s.8(1), all public relations materials must clearly and prominently disclose the licensee name and the brokerage’s authorized name and licence number; s.9 bans false, misleading or deceptive information. Row 4, C-AB4: RECA Rule 65(b), the brokerage must ensure its name is clearly indicated in the course of dealing in mortgages. Row 5, F18: CASL s.6, a commercial electronic message needs consent, prescribed sender identification, contact information and an unsubscribe mechanism; electronic messages include text, sound, voice and image messages. Ad rules for other provinces were not researched; ask the broker.</p>
+  </div></details>
+  <div class="read"><button data-sec="s4">Mark as read</button></div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="s5" data-title="Province and territory rules" data-min="4">
+  <div class="sh"><span class="num">05</span><h2>Province and territory rules</h2><span class="rt">~4 min</span></div>
+  <p class="tldr">Same line everywhere, different details. Tap your client’s province. A blank is not permission.</p>
+
+  <div class="prov-nav" id="provnav">
+    <button class="on" data-p="all">All</button><button data-p="ON">ON</button><button data-p="BC">BC</button><button data-p="AB">AB</button><button data-p="SK">SK</button><button data-p="MB">MB</button><button data-p="NB">NB</button><button data-p="NS">NS</button><button data-p="NL">NL</button><button data-p="PE">PE, YT, NT, NU</button>
+  </div>
+  <div class="prov" id="prov">
+    <div class="pc" data-p="ON"><h4>Ontario</h4><p class="law">Mortgage Brokerages, Lenders and Administrators Act · FSRA</p><dl><dt>Staff exemption</dt><dd>None found: “as an employee or otherwise”</dd><dt>Records</dt><dd>6+ years after the term ends</dd><dt>Watch for</dt><dd>Other uses of client info need written consent</dd></dl></div>
+    <div class="pc" data-p="BC"><h4>British Columbia</h4><p class="law">Mortgage Services Act, from 13 Oct 2026 · BCFSA</p><dl><dt>Staff exemption</dt><dd>None for brokerage staff</dd><dt>Records</dt><dd>In BC, brokerage’s control, 7+ years</dd><dt>Watch for</dt><dd>Report lost records to the superintendent in writing</dd></dl></div>
+    <div class="pc" data-p="AB"><h4>Alberta</h4><p class="law">Real Estate Act and RECA Rules</p><dl><dt>Staff exemption</dt><dd>Assistants allowed, never for licensee-only tasks</dd><dt>Records</dt><dd>At the brokerage’s Alberta office</dd><dt>Watch for</dt><dd>Clients must know you are unlicensed. Offshore notice</dd></dl></div>
+    <div class="pc" data-p="SK"><h4>Saskatchewan</h4><p class="law">Mortgage Brokerages and Mortgage Administrators Act · FCAA</p><dl><dt>Staff exemption</dt><dd>None found: “as an employee or otherwise”</dd><dt>Records</dt><dd>Period in regulations, not checked</dd><dt>Watch for</dt><dd>Associates are supervised by a broker</dd></dl></div>
+    <div class="pc" data-p="MB"><h4>Manitoba</h4><p class="law">The Mortgage Brokers Act · Manitoba Securities Commission</p><dl><dt>Staff exemption</dt><dd>Yes: clerical duties only</dd><dt>Records</dt><dd>Not checked</dd><dt>Watch for</dt><dd>Only Act with a clerical exemption</dd></dl></div>
+    <div class="pc" data-p="NB"><h4>New Brunswick</h4><p class="law">Mortgage Brokers Act · FCNB</p><dl><dt>Staff exemption</dt><dd>Not confirmed: Act wording not read</dd><dt>Records</dt><dd>Keep notes of key client communications</dd><dt>Watch for</dt><dd>Application intake is licensed work</dd></dl></div>
+    <div class="pc" data-p="NS"><h4>Nova Scotia</h4><p class="law">Mortgage Regulation Act and regulations</p><dl><dt>Staff exemption</dt><dd>None in the Exemption Regulations</dd><dt>Records</dt><dd>Not found</dd><dt>Watch for</dt><dd>No pay to unlicensed people for licensed work. Act definition not read</dd></dl></div>
+    <div class="pc" data-p="NL"><h4>Newfoundland and Labrador</h4><p class="law">Mortgage Brokerages and Brokers Act, from 1 Apr 2025</p><dl><dt>Staff exemption</dt><dd>None in the Act. Regulations not checked</dd><dt>Records</dt><dd>As the regulations set</dd><dt>Watch for</dt><dd>New Act. Check the regulations first</dd></dl></div>
+    <div class="pc" data-p="PE"><h4>PEI, Yukon, NWT, Nunavut</h4><p class="law">No licensing statute found</p><dl><dt>Staff exemption</dt><dd>Not applicable</dd><dt>Records</dt><dd>FINTRAC: at least 5 years</dd><dt>Watch for</dt><dd>Follow the licensed-tasks table anyway. Confirm before relying on this</dd></dl></div>
+  </div>
+  <p class="tag law" style="margin-top:8px">LAW · C-ON1 to C-ON6 · C-BC1 to C-BC7 · C-AB1 to C-AB4 · P2 · C-SK1 to C-SK3 · C-MB1 · C-MB2 · C-NB1 to C-NB3 · C-NS1 to C-NS3 · C-NL1 · C-NL2 · F11 · F13 · F14</p>
+
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <h5>ON, BC, AB, SK, MB</h5>
+    <p>Ontario: MBLAA s.2(3) licence needed “as an employee or otherwise” (C-ON2); O. Reg. 188/08 s.40 supervision (C-ON3), s.46 to 48 records, kept at least six years after the term expires (C-ON4), s.57 written consent for any other use (C-ON5). FSRA guidance on AI or unlicensed assistants: none found (C-ON7). BC: Mortgage Services Act and Rules effective 13 October 2026 (C-BC1); s.4 exemptions do not include brokerage staff (C-BC3); s.32 records kept in BC (C-BC4); Rules s.107 to 110, direct control, loss reported in writing, at least seven years (C-BC5). Whether cloud storage outside BC meets s.32 is unanswered (C-BC6). Alberta: Real Estate Act s.17 and s.1(1)(r) (C-AB1); RECA Rule 46 assistants trained, supervised and known to be unlicensed (C-AB2); Rule 44 confidentiality (C-AB3); Rule 105 records (C-AB4); PIPA s.13.1 offshore notice, which the broker gives (P2). Saskatchewan: s.5(3) (C-SK1), associates supervised (C-SK2), s.35 records for the prescribed period; the regulations were not read (C-SK3). Manitoba: s.2(2) exempts office staff in clerical, accounting or caretaking duties not otherwise in mortgage business (C-MB2). It covers clerical duties, not the licensed tasks. Records were not checked.</p>
+    <h5>Atlantic Canada and the territories</h5>
+    <p>New Brunswick: FCNB Guidelines to Rule MB-001 (updated October 2018) say taking mortgage applications or pre-screening referrals requires a licence (C-NB1). The Act text could not be read (C-NB2). Brokerages keep notes of communications on client instructions, disclosure, suitability, material risks and complaints (C-NB3). Nova Scotia: the Act’s definition of brokering is unread because the legislature’s site was unreachable on 28 October 2026 (C-NS3). Conduct Regulations s.26(1) ban paying an unlicensed person for licensed activity, s.24(2) requires supervision (C-NS1). The Exemption Regulations have no exemption for brokerage clerical staff, and a referrer may pass on only the borrower’s name, with written consent (C-NS2). Newfoundland and Labrador: SNL 2023 c M-17.1, in force 1 April 2025; s.2(2) brokering, s.14 licence required, s.3 exemptions only by regulation (C-NL1); s.16 records as the regulations prescribe (C-NL2). The regulations were not read. PEI, Yukon, NWT, Nunavut: no mortgage broker licensing statute was found. Official sites blocked automated reading and secondary sources disagree, so this means “not found”, not “there is no law”. This has not been confirmed with each government. PIPEDA applies, and organizations in the territories are considered federally regulated (F11). FINTRAC’s mortgage sector duties apply, including keeping records at least five years and producing them within 30 days (F13, F14). Following the licensed-tasks table in these places is a LendMate rule.</p>
+  </div></details>
+  <div class="read"><button data-sec="s5">Mark as read</button></div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="s6" data-title="Recorded client calls" data-min="2">
+  <div class="sh"><span class="num">06</span><h2>Recorded client calls</h2><span class="rt">~2 min</span></div>
+  <p class="tldr">Recording? Confirm with your broker first, then say it at the start of the call.</p>
+
+  <h3><small>Quick answers</small>Can I...?</h3>
+  <div class="qa">
+  <div class="q"><span class="ans no">No</span><div><b>Record a client call without telling them?</b><span>Say it is recorded, say why, and offer to continue without recording.</span></div></div>
+  <div class="q"><span class="ans if">Only if</span><div><b>Use a notetaker on a call at all?</b><span>Only if your broker confirmed, before or during the call. If not, no notetaker.</span></div></div>
+  </div>
+
+  <h3><small>The script</small>What to say</h3>
+  <div class="script"><small>Say this at the start · LendMate rule</small>“This call is recorded and transcribed so [purpose]. Is that OK? We can also continue without recording.”</div>
+  <p style="font-size:14px;color:var(--ink2)">Fill [purpose] with the real reason your broker gives, as narrowly as possible.</p>
+
+  <ol class="list">
+    <li><p><b>Broker confirmed, before or during the call?</b> If not, no notetaker.</p></li>
+    <li><p><b>Say it’s recorded, and why,</b> as narrowly as you can.</p></li>
+    <li><p><b>Offer a choice.</b> If recording isn’t essential, continue without it.</p></li>
+    <li><p><b>One party’s consent</b> makes recording legal under the Criminal Code. Privacy law still needs the notice.</p></li>
+    <li><p><b>New Brunswick:</b> notes of key client calls must be kept.</p></li>
+  </ol>
+  <p class="tag law">LAW · F16 · F17 · C-NB3</p>
+
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <p>A notetaker only runs on a client call after the broker confirms, before or during the call, that client consent covers it, in the broker’s own account (LendMate rule). The script wording is a LendMate house rule. F17, OPC guidance on recording customer calls (page modified 8 October 2026): the organization must inform the customer that it is recording, state the purpose clearly and narrowly, and in most cases a customer who continues after being told has given implied consent; express consent may be needed for voiceprints or other sensitive information; customers must be given a choice, and where recording isn’t integral to the service, alternatives must be offered; businesses that outsource call handling must make sure the third parties follow the same rules. F16, Criminal Code s.184: intercepting a private communication is an offence, but s.184(2)(a) excludes a person who has the consent, express or implied, of the originator or the intended recipient. C-NB3: New Brunswick brokerages keep notes of communications about client instructions, disclosure, suitability, material risks and complaints.</p>
+  </div></details>
+  <div class="read"><button data-sec="s6">Mark as read</button></div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="s7" data-title="When in doubt" data-min="1">
+  <div class="sh"><span class="num">07</span><h2>When in doubt</h2><span class="rt">~1 min</span></div>
+  <p class="tldr">The one thing to remember from this guide.</p>
+  <div class="sss">
+    <div><b>Stop.</b><span>Red data or a licensed task? Don’t start.</span></div>
+    <div><b>Strip it.</b><span>Use placeholders. No private info goes into AI.</span></div>
+    <div><b>Ask your broker.</b><span>Your broker is accountable. Their answer wins.</span></div>
+  </div>
+  <p class="tag lm">LENDMATE RULE</p>
+  <details class="why"><summary>Why, and the law behind it</summary><div class="in">
+    <p>A LendMate house rule that compresses the training: stop on red data or anything on the licensed-tasks list, strip all private information and use placeholders (LendMate’s rule, stricter than the regulators’ de-identification principle, F2), and ask the broker, because the organization is accountable, not the VA and not the tool (F5, F6).</p>
+  </div></details>
+  <div class="read"><button data-sec="s7">Mark as read</button></div>
+</section>
+
+<section class="sec" id="s8" data-title="Words you’ll see" data-min="2">
+  <div class="sh"><span class="num">08</span><h2>Words you’ll see</h2><span class="rt">~2 min</span></div>
+  <p class="tldr">Short meanings for the names and labels used in this guide.</p>
+  <dl class="gl">
+    <div><dt>PIPEDA</dt><dd>The federal privacy law. It covers private businesses across Canada, and any personal information that crosses a provincial or national border.</dd></div>
+    <div><dt>Alberta PIPA and BC PIPA</dt><dd>The provincial privacy laws in Alberta and BC. Inside those provinces they generally replace PIPEDA.</dd></div>
+    <div><dt>OPC</dt><dd>The Office of the Privacy Commissioner of Canada. With the provincial and territorial privacy regulators, it published the principles for generative AI.</dd></div>
+    <div><dt>FINTRAC</dt><dd>Anti-money laundering rules. They set how ID is checked and how long records are kept (at least 5 years).</dd></div>
+    <div><dt>CASL</dt><dd>The rules for commercial emails and texts: consent, sender details and an unsubscribe.</dd></div>
+    <div><dt>OSFI Guideline E-23</dt><dd>Rules for AI models at federally regulated lenders, starting 1 May 2027. They do not apply to brokers directly.</dd></div>
+    <div><dt>Licensed activity</dt><dd>A task the law says only a licensed mortgage person may do for pay, such as advising, assessing a borrower or arranging a mortgage.</dd></div>
+    <div><dt>Mortgage regulator</dt><dd>The body that licenses brokers in each province, such as FSRA in Ontario, BCFSA in BC and RECA in Alberta.</dd></div>
+    <div><dt>B2C data</dt><dd>Your broker’s clients’ information: borrowers and buyers.</dd></div>
+    <div><dt>B2B data</dt><dd>Your broker’s own business information: logins, systems, client lists, pipeline, lender details.</dd></div>
+    <div><dt>Placeholder</dt><dd>A blank such as [First name] that you fill in later, outside the AI tool.</dd></div>
+    <div><dt>Notetaker</dt><dd>An AI tool that records and transcribes a call.</dd></div>
+    <div><dt>CRM AI</dt><dd>AI features inside a client system, such as GHL or My Broker Pro.</dd></div>
+    <div><dt>Source IDs (F6, C-ON5, P2...)</dt><dd>Codes that point to the exact law or page behind a rule. The full list with links is on the last slides of the deck.</dd></div>
+  </dl>
+  <div class="read"><button data-sec="s8">Mark as read</button></div>
+</section>
+
+<div class="end">
+  <h2>Done reading? Take the gate quiz.</h2>
+  <p>15 questions, all answered in this guide. Link: <a href="https://lendmate-quiz-app.vercel.app">lendmate-quiz-app.vercel.app</a>. Pass mark: 70% (11 of 15). Unlimited tries. Pass, and you can join a live session.</p>
+  <p>AI can make mistakes. Always check its output. Never let AI do the whole job.</p>
+  <p class="small">Printable copies: <a href="downloads/LendMate-VA-AI-Cheat-Sheet.pdf">one-page cheat sheet (PDF)</a>, <a href="downloads/LendMate-VA-AI-Cheat-Sheet-dark.pdf">cheat sheet, dark version (PDF)</a>, <a href="downloads/LendMate-VA-AI-Self-Learning-Guide.pdf">this guide as a PDF</a>.</p>
+  <p class="small">Not legal advice · Rules checked 28 October 2026 · Full source links are on the last slides of the deck</p>
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('section.sec'));
+  var KEY='lm-guide-read-v3';
+  var read={};
+  try{read=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){read={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(read))}catch(e){}}
+  var toc=document.getElementById('toc'), sel=document.getElementById('msel');
+  secs.forEach(function(s,i){
+    var li=document.createElement('li');
+    li.innerHTML='<a href="#'+s.id+'" data-id="'+s.id+'"><span class="n">'+(i+1)+'</span><span>'+s.dataset.title+'<span class="tm">~'+s.dataset.min+' min</span></span></a>';
+    toc.appendChild(li);
+    var o=document.createElement('option');o.value=s.id;o.textContent=(i+1)+'. '+s.dataset.title;sel.appendChild(o);
+  });
+  sel.addEventListener('change',function(){document.getElementById(sel.value).scrollIntoView()});
+  function render(){
+    var n=0;
+    secs.forEach(function(s){
+      var d=!!read[s.id]; if(d)n++;
+      var a=toc.querySelector('a[data-id="'+s.id+'"]'); a.classList.toggle('done',d);
+      if(d)a.querySelector('.n').textContent='✓'; else a.querySelector('.n').textContent=secs.indexOf(s)+1;
+      var b=s.querySelector('.read button'); b.classList.toggle('done',d); b.textContent=d?'Read ✓':'Mark as read';
+    });
+    var pct=Math.round(n/secs.length*100);
+    document.getElementById('pbar').style.width=pct+'%';
+    document.getElementById('mbar').style.width=pct+'%';
+    document.getElementById('ptext').textContent=n+' of '+secs.length+' sections read';
+  }
+  document.querySelectorAll('.read button').forEach(function(b){
+    b.addEventListener('click',function(){var id=b.dataset.sec;read[id]=!read[id];save();render();
+      if(read[id]){var i=secs.findIndex(function(s){return s.id===id});if(secs[i+1])secs[i+1].scrollIntoView()}});
+  });
+  render();
+  // scroll spy
+  var links=toc.querySelectorAll('a');
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+    links.forEach(function(l){l.classList.toggle('on',l.dataset.id===e.target.id)});sel.value=e.target.id;}})},{rootMargin:'-20% 0px -70% 0px'});
+  secs.forEach(function(s){io.observe(s)});
+  // province filter
+  var pn=document.getElementById('provnav');
+  pn.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    pn.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)});
+    document.querySelectorAll('#prov .pc').forEach(function(c){c.classList.toggle('hide',b.dataset.p!=='all'&&c.dataset.p!==b.dataset.p)});
+  });
+})();
+</script>
+</html>
