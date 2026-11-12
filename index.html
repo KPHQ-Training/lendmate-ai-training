@@ -6,6 +6,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=' js'</script>
 <style>
 :root{
   --bg:#FBF8FF; --panel:#FFFFFF; --ink:#1F0B45; --ink2:#4A3A6B; --mute:#7A6C96;
@@ -205,6 +206,20 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
 .gl dd{margin:2px 0 0;font-size:14px;color:var(--ink2)}
 @media (max-width:900px){.quick{padding:24px 20px}.q{grid-template-columns:1fr;gap:8px}.ans{justify-self:start;padding:4px 10px}.gl{grid-template-columns:1fr}}
 @media print{nav.side,.mtop,.read,.prov-nav{display:none}.wrap{display:block}details.why .in{display:block}}
+
+/* v4: one page per section */
+.js .page{display:none}
+.js .page.on{display:block}
+.page h1:focus,.page h2:focus{outline:none}
+.pager{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin:40px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.pager a{display:flex;flex-direction:column;gap:2px;padding:14px 18px;border:1.5px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);text-decoration:none;flex:0 1 46%;min-width:0}
+.pager a:hover{border-color:var(--purple)}
+.pager a span{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mute)}
+.pager a b{font-size:15px;font-weight:700;line-height:1.35}
+.pager a.next{margin-left:auto;text-align:right;border-color:var(--purple)}
+.pager .cnt{flex:1 0 100%;order:3;text-align:center;font-size:12px;color:var(--mute);margin:0}
+@media (max-width:600px){.pager a{flex:1 1 100%}.pager a.next{margin-left:0}}
+@media print{.js .page{display:block!important}.pager{display:none}}
 </style>
 <div class="wrap">
 
@@ -217,6 +232,7 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
 <main>
 <div class="mtop"><select id="msel" aria-label="Jump to section"></select><div class="bar"><i id="mbar"></i></div></div>
 
+<div class="page" id="start" data-title="Start here">
 <header class="hero">
   <p class="eb">LendMate VA training · Self-learning guide</p>
   <h1>AI on Canadian<br>mortgage files.</h1>
@@ -225,7 +241,7 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
 </header>
 
 <div class="steps">
-  <div class="step"><b>1 · Read</b><span>Work through the 8 sections below. Mark each one read as you go.</span></div>
+  <div class="step"><b>1 · Read</b><span>Work through the 8 sections, one page each. Use Next at the bottom of each page. Mark each one read as you go.</span></div>
   <div class="step"><b>2 · Quiz</b><span>Take the gate quiz (15 questions). Link: <a href="https://lendmate-quiz-app.vercel.app">lendmate-quiz-app.vercel.app</a>. Pass mark: 70% (11 of 15). Unlimited tries.</span></div>
   <div class="step"><b>3 · Live</b><span>Pass, and you can join a live session. If not, read again and retake.</span></div>
   <div class="step"><b>4 · Check</b><span>The live session shows you how to do the work with AI, then ends with a short check (8 questions).</span></div>
@@ -233,7 +249,7 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
 
 <div class="quick">
   <h2>The 30-second version</h2>
-  <p>If you remember nothing else, remember these five. The sections below explain each one.</p>
+  <p>If you remember nothing else, remember these five. The next pages explain each one.</p>
   <ol>
     <li><div>No private client info goes into any AI chat app.<span>Names, contact details, SIN, IDs, income documents, credit reports, deal details. Your broker’s business data counts too.</span></div></li>
     <li><div>You are not mortgage licensed, so AI can’t do licensed work for you.<span>No advice on which mortgage suits someone, no assessing borrowers, nothing sent to a lender. That is your broker’s job.</span></div></li>
@@ -245,6 +261,8 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
 
 <div class="note">
   <b>Read these first.</b> This is not legal advice. It was built from public sources and reviewed by the LendMate team, not a lawyer. No private info goes into any chat app: a LendMate rule, stricter than the law. When in doubt: <b>Stop. Strip it. Ask your broker.</b> Live sessions: two sessions of 30 minutes, Day 1 and Day 2, at 8:30 to 9:00 am EST (9:30 to 10:00 pm Philippine time). Your TL shares the dates.
+</div>
+
 </div>
 
 <!-- 1 -->
@@ -573,6 +591,7 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
   <div class="read"><button data-sec="s8">Mark as read</button></div>
 </section>
 
+<div class="page" id="finish" data-title="Finish and take the quiz">
 <div class="end">
   <h2>Done reading? Take the gate quiz.</h2>
   <p>15 questions, all answered in this guide. Link: <a href="https://lendmate-quiz-app.vercel.app">lendmate-quiz-app.vercel.app</a>. Pass mark: 70% (11 of 15). Unlimited tries. Pass, and you can join a live session.</p>
@@ -580,47 +599,73 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
   <p class="small">Printable copies: <a href="downloads/LendMate-VA-AI-Cheat-Sheet.pdf">one-page cheat sheet (PDF)</a>, <a href="downloads/LendMate-VA-AI-Cheat-Sheet-dark.pdf">cheat sheet, dark version (PDF)</a>, <a href="downloads/LendMate-VA-AI-Self-Learning-Guide.pdf">this guide as a PDF</a>.</p>
   <p class="small">Not legal advice · Rules checked 28 October 2026 · Full source links are on the last slides of the deck</p>
 </div>
+</div>
 </main>
 </div>
 
 <script>
 (function(){
   var secs=[].slice.call(document.querySelectorAll('section.sec'));
+  secs.forEach(function(s){s.classList.add('page')});
+  var pages=[document.getElementById('start')].concat(secs).concat([document.getElementById('finish')]);
   var KEY='lm-guide-read-v3';
   var read={};
   try{read=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){read={}}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(read))}catch(e){}}
   var toc=document.getElementById('toc'), sel=document.getElementById('msel');
-  secs.forEach(function(s,i){
+  function label(p,i){return p.id==='start'?'\u2022':(p.id==='finish'?'\u2192':String(i))}
+  pages.forEach(function(p,i){
     var li=document.createElement('li');
-    li.innerHTML='<a href="#'+s.id+'" data-id="'+s.id+'"><span class="n">'+(i+1)+'</span><span>'+s.dataset.title+'<span class="tm">~'+s.dataset.min+' min</span></span></a>';
-    toc.appendChild(li);
-    var o=document.createElement('option');o.value=s.id;o.textContent=(i+1)+'. '+s.dataset.title;sel.appendChild(o);
+    var a=document.createElement('a');a.href='#'+p.id;a.dataset.id=p.id;
+    var n=document.createElement('span');n.className='n';n.textContent=label(p,i);
+    var t=document.createElement('span');t.textContent=p.dataset.title;
+    if(p.dataset.min){var m=document.createElement('span');m.className='tm';m.textContent='~'+p.dataset.min+' min';t.appendChild(m)}
+    a.appendChild(n);a.appendChild(t);li.appendChild(a);toc.appendChild(li);
+    var o=document.createElement('option');o.value=p.id;o.textContent=(p.id==='start'||p.id==='finish')?p.dataset.title:(i+'. '+p.dataset.title);sel.appendChild(o);
   });
-  sel.addEventListener('change',function(){document.getElementById(sel.value).scrollIntoView()});
+  sel.addEventListener('change',function(){location.hash='#'+sel.value});
+  // previous / next at the bottom of every page
+  pages.forEach(function(p,i){
+    var bar=document.createElement('div');bar.className='pager';
+    function link(target,cls,word){
+      var a=document.createElement('a');a.href='#'+target.id;a.className=cls;
+      var w=document.createElement('span');w.textContent=word;
+      var b=document.createElement('b');b.textContent=target.dataset.title;
+      a.appendChild(w);a.appendChild(b);return a;
+    }
+    if(i>0)bar.appendChild(link(pages[i-1],'prev','\u2190 Back'));
+    if(i<pages.length-1)bar.appendChild(link(pages[i+1],'next',i===0?'Start \u2192':'Next \u2192'));
+    var c=document.createElement('p');c.className='cnt';c.textContent='Page '+(i+1)+' of '+pages.length;
+    bar.appendChild(c);p.appendChild(bar);
+  });
   function render(){
     var n=0;
-    secs.forEach(function(s){
+    secs.forEach(function(s,i){
       var d=!!read[s.id]; if(d)n++;
       var a=toc.querySelector('a[data-id="'+s.id+'"]'); a.classList.toggle('done',d);
-      if(d)a.querySelector('.n').textContent='✓'; else a.querySelector('.n').textContent=secs.indexOf(s)+1;
-      var b=s.querySelector('.read button'); b.classList.toggle('done',d); b.textContent=d?'Read ✓':'Mark as read';
+      a.querySelector('.n').textContent=d?'\u2713':String(i+1);
+      var b=s.querySelector('.read button'); b.classList.toggle('done',d); b.textContent=d?'Read \u2713':'Mark as read';
     });
     var pct=Math.round(n/secs.length*100);
     document.getElementById('pbar').style.width=pct+'%';
     document.getElementById('mbar').style.width=pct+'%';
     document.getElementById('ptext').textContent=n+' of '+secs.length+' sections read';
   }
+  function current(){var id=(location.hash||'').slice(1);for(var i=0;i<pages.length;i++){if(pages[i].id===id)return pages[i]}return pages[0]}
+  function show(){
+    var cur=current();
+    pages.forEach(function(p){p.classList.toggle('on',p===cur)});
+    toc.querySelectorAll('a').forEach(function(l){l.classList.toggle('on',l.dataset.id===cur.id)});
+    sel.value=cur.id;
+    window.scrollTo(0,0);
+    var h=cur.querySelector('h1,h2');if(h){h.setAttribute('tabindex','-1');try{h.focus({preventScroll:true})}catch(e){}}
+  }
   document.querySelectorAll('.read button').forEach(function(b){
     b.addEventListener('click',function(){var id=b.dataset.sec;read[id]=!read[id];save();render();
-      if(read[id]){var i=secs.findIndex(function(s){return s.id===id});if(secs[i+1])secs[i+1].scrollIntoView()}});
+      if(read[id]){var i=pages.findIndex(function(p){return p.id===id});if(pages[i+1])location.hash='#'+pages[i+1].id}});
   });
-  render();
-  // scroll spy
-  var links=toc.querySelectorAll('a');
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
-    links.forEach(function(l){l.classList.toggle('on',l.dataset.id===e.target.id)});sel.value=e.target.id;}})},{rootMargin:'-20% 0px -70% 0px'});
-  secs.forEach(function(s){io.observe(s)});
+  window.addEventListener('hashchange',show);
+  render();show();
   // province filter
   var pn=document.getElementById('provnav');
   pn.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
@@ -629,4 +674,3 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
   });
 })();
 </script>
-</html>
