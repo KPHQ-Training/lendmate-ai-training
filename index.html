@@ -212,6 +212,20 @@ details.why .in h5{margin:16px 0 4px;font-size:12px;letter-spacing:1px;text-tran
 .pager .cnt{flex:1 0 100%;order:3;text-align:center;font-size:12px;color:var(--mute);margin:0}
 @media (max-width:600px){.pager a{flex:1 1 100%}.pager a.next{margin-left:0}}
 @media print{.js .page{display:block!important}.pager{display:none}}
+@media print{
+  @page{margin:0.5in}
+  body{font-size:13px;line-height:1.45}
+  .wrap{display:block;padding:0}
+  .hero{padding:24px 28px;margin-bottom:16px}.hero h1{font-size:48px}.hero p{font-size:14px}
+  .steps{gap:8px;margin-bottom:12px}.step{padding:10px}
+  .quick{padding:16px 20px;margin-bottom:12px}.quick h2{font-size:28px}.quick li{font-size:13px;padding:6px 0}
+  .note{margin-bottom:20px;padding:10px 14px}
+  section.sec{padding-top:8px;margin-bottom:18px}
+  .sh h2,.sh .num{font-size:30px}.tldr{font-size:15px;margin:8px 0 14px}
+  h3{margin:16px 0 8px;font-size:15px}
+  .end{padding:20px 24px}.end h2{font-size:30px}
+  .lt,.q,.card,.pc,.sss div,.callout,.dd{break-inside:avoid}
+}
 </style>
 <div class="wrap">
 
