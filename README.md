@@ -1,5 +1,5 @@
-# LendMate AI training: self-learning guide
+# LendMate VA training: entry page
 
-Static site (no build step). `index.html` is the self-learning guide for LendMate VAs: what AI may and may not touch on Canadian mortgage files. `downloads/` holds the printable cheat sheet and a PDF copy of the guide.
+A single static page that sends VAs to the quiz site, where the guide, quizzes and study materials sit behind login.
 
-Not legal advice. No client data in this repo. The quiz lives in a separate repo (`lendmate-quiz-app`).
+The guide, PDFs and practice quiz are NOT served from here. They live in the private storage bucket `materials` of the quiz site's Supabase project and open only for signed-in users. See `storage.sql` in the `lendmate-quiz-app` repo.
